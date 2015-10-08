@@ -1,0 +1,8 @@
+#!/bin/bash
+
+
+## Setup cron
+cat > /etc/cron.d/01-hydrobot << EOF
+@reboot root hydrobot --daemon
+? ? ? ? ? root hydrobot --daemon
+EOF

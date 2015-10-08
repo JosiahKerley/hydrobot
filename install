@@ -3,6 +3,6 @@
 
 ## Setup cron
 cat > /etc/cron.d/01-hydrobot << EOF
-@reboot root hydrobot --daemon
-? ? ? ? ? root hydrobot --daemon
+@reboot root flock -n /tmp/.hydrobot -c "hydrobot --daemon"
+? ? ? ? ? root flock -n /tmp/.hydrobot -c "hydrobot --daemon"
 EOF

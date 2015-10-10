@@ -1,6 +1,15 @@
 #!/bin/bash
 
-if [ ! -f /etc/cron.d/01-hydrobot ]
+
+## Setup cron
+cat > /etc/cron.d/01-hydrobot << EOF
+@reboot root flock -n /tmp/.hydrobot -c "hydrobot --daemon >> /var/log/hydrobot"
+? ? ? ? ? root flock -n /tmp/.hydrobot -c "hydrobot --daemon >> /var/log/hydrobot"
+EOF
+
+
+## Call install
+if [ ! -d /etc/redis ]
 then
   bash ./install
 fi

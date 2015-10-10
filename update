@@ -12,7 +12,8 @@ chmod +x /usr/bin/hydrobot
 
 
 ## Updater
-echo > /usr/bin/update-hydrobot << EOF
+cat > /usr/bin/update-hydrobot << EOF
+#!/bin/bash
 cd /opt/hydrobot
 git pull
 bash ./update

@@ -6,3 +6,6 @@ then
 fi
 
 
+## Install daemon
+cat src/hydrobot.py > /usr/bin/hydrobot
+chmod +x /usr/bin/hydrobot

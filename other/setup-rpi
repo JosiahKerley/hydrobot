@@ -1,0 +1,26 @@
+#!/bin/bash
+
+
+## Setup
+apt-get update -y
+
+
+## Set monitor to "always on"
+sed -i 's/^BLANK_TIME=.*/BLANK_TIME=0/g' /etc/kbd/config
+
+
+## Set autologin on terminal
+sed -i 's/^1:2345:.*/1:2345:respawn:\/bin\/login -f pi tty1 <\/dev\/tty1 >\/dev\/tty1 2>&1/g'
+
+
+## Change hostname to "hydrobot"
+echo 'hydrobot' > /etc/hostname
+
+
+## Start glances on start
+echo glances >> /home/pi/.bashrc
+
+
+## Extra apps
+apt-get install -y htop iotop iftop tmux
+pip install glances

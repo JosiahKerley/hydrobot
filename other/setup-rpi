@@ -23,7 +23,7 @@ echo "flock -n /tmp/.login -c glances" >> /home/pi/.bashrc
 
 
 ## Extra apps
-apt-get install -y htop iotop iftop tmux gcc python-dev python-pip
+apt-get install -y htop iotop iftop tmux gcc python-dev python-pip redis-server
 pip install psutil || pip install psutil --upgrade
 pip install glances
 

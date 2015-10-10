@@ -24,3 +24,24 @@ echo glances >> /home/pi/.bashrc
 ## Extra apps
 apt-get install -y htop iotop iftop tmux
 pip install glances
+
+
+## Install Hydrobot
+mkdir -p /opt/hydrobot
+git clone https://github.com/JosiahKerley/hydrobot /opt/hydrobot
+
+
+## Setup updater
+cat >> /etc/rc.local << EOF
+sleep 5
+if ping -c 5 8.8.8.8
+then
+  if [ ! -f /.firstboot ]
+  then
+    if update-hydrobot
+    then
+      touch /.firstboot
+    fi
+  fi
+fi
+EOF

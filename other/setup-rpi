@@ -18,6 +18,7 @@ echo 'hydrobot' > /etc/hostname
 
 
 ## Start glances on start
+sed -i 's/.*glances.*//g' /home/pi/.bashrc
 echo "flock -n /tmp/.login -c glances" >> /home/pi/.bashrc
 
 

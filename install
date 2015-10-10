@@ -8,5 +8,13 @@ cat > /etc/cron.d/01-hydrobot << EOF
 EOF
 
 
+## Setup prereqs
+if ! apt-get install -y python-redis || yum install -y python-redis
+then
+  echo Cannot install python redis!
+  exit 1
+fi
+
+
 ## Update
 ./update

@@ -1,5 +1,5 @@
 #!/bin/bash
-## Run `sudo bash <(curl -s https://raw.githubusercontent.com/JosiahKerley/hydrobot/master/other/setup-rpi)` from a fresh raspbian to setup
+## Run `sudo bash < <(curl -s https://raw.githubusercontent.com/JosiahKerley/hydrobot/master/other/setup-rpi)` from a fresh raspbian to setup
 
 ## Setup
 apt-get update -y

@@ -10,7 +10,7 @@ sed -i 's/^BLANK_TIME=.*/BLANK_TIME=0/g' /etc/kbd/config
 
 
 ## Set autologin on terminal
-sed -i 's/^1:2345:.*/1:2345:respawn:\/bin\/login -f pi tty1 <\/dev\/tty1 >\/dev\/tty1 2>&1/g'
+sed -i 's/^1:2345:.*/1:2345:respawn:\/bin\/login -f pi tty1 <\/dev\/tty1 >\/dev\/tty1 2>&1/g' /etc/inittab
 
 
 ## Change hostname to "hydrobot"
@@ -22,7 +22,8 @@ echo glances >> /home/pi/.bashrc
 
 
 ## Extra apps
-apt-get install -y htop iotop iftop tmux
+apt-get install -y htop iotop iftop tmux gcc python-dev python-pip
+pip install psutil || pip install psutil --upgrade
 pip install glances
 
 
@@ -35,6 +36,7 @@ cd -
 
 
 ## Setup updater
+sed 's/exit 0//g' /etc/rc.local
 cat >> /etc/rc.local << EOF
 sleep 5
 if ping -c 5 8.8.8.8
@@ -47,4 +49,5 @@ then
     fi
   fi
 fi
+exit 0
 EOF

@@ -10,7 +10,7 @@ sed -i 's/^BLANK_TIME=.*/BLANK_TIME=0/g' /etc/kbd/config
 
 
 ## Set autologin on terminal
-sed -i 's/^1:2345:.*/1:2345:respawn:\/bin\/login -f pi tty1 <\/dev\/tty1 >\/dev\/tty1 2>&1/g' /etc/inittab
+sed -i '/^1:2345:.*/s/1:2345:.*/1:2345:respawn:\/bin\/login -f pi tty1 <\/dev\/tty1 >\/dev\/tty1 2>\&1/g' /etc/inittab
 
 
 ## Change hostname to "hydrobot"
@@ -18,7 +18,7 @@ echo 'hydrobot' > /etc/hostname
 
 
 ## Start glances on start
-echo glances >> /home/pi/.bashrc
+echo "flock -n /tmp/.login -c glances" >> /home/pi/.bashrc
 
 
 ## Extra apps

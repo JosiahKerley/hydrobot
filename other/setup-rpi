@@ -28,11 +28,16 @@ pip install glances
 
 
 ## Install Hydrobot
-mkdir -p /opt/hydrobot
-git clone https://github.com/JosiahKerley/hydrobot /opt/hydrobot
-cd /opt/hydrobot
-bash install
-cd -
+if [ -d /opt/hydrobot ]
+then
+  update-hydrobot
+else
+  mkdir -p /opt/hydrobot
+  git clone https://github.com/JosiahKerley/hydrobot /opt/hydrobot
+  cd /opt/hydrobot
+  bash install
+  cd -
+fi
 
 
 ## Setup updater

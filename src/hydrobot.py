@@ -13,9 +13,11 @@ GPIO.setup(11, GPIO.OUT)
 
 
 ## Functions
-def high(pin):  
+def high(pin):
+  print('Setting pin %s to high'%(str(pin)))
   GPIO.output(pin,GPIO.HIGH)  
 def low(pin):
+  print('Setting pin %s to low'%(str(pin)))
   GPIO.output(pin,GPIO.LOW)  
 
 

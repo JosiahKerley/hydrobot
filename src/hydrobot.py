@@ -9,7 +9,8 @@ pins = [3,5,7,8,10,12,11,13]
 
 ## Setup
 GPIO.setmode(GPIO.BOARD)
-GPIO.setup(11, GPIO.OUT)
+for pin in pins:
+  GPIO.setup(pin, GPIO.OUT)
 
 
 ## Functions

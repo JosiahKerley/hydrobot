@@ -1,5 +1,5 @@
 #!/bin/bash
-## Run `bash <(curl -s https://raw.githubusercontent.com/JosiahKerley/hydrobot/master/other/setup-rpi)` from a fresh raspbian to setup
+## Run `sudo bash <(curl -s https://raw.githubusercontent.com/JosiahKerley/hydrobot/master/other/setup-rpi)` from a fresh raspbian to setup
 
 ## Setup
 apt-get update -y
@@ -29,6 +29,9 @@ pip install glances
 ## Install Hydrobot
 mkdir -p /opt/hydrobot
 git clone https://github.com/JosiahKerley/hydrobot /opt/hydrobot
+cd /opt/hydrobot
+bash install
+cd -
 
 
 ## Setup updater

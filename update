@@ -9,3 +9,13 @@ fi
 ## Install daemon
 cat src/hydrobot.py > /usr/bin/hydrobot
 chmod +x /usr/bin/hydrobot
+
+
+## Updater
+echo > /usr/bin/update-hydrobot << EOF
+cd /opt/hydrobot
+git pull
+bash ./update
+cd -
+EOF
+chmod +x /usr/bin/update-hydrobot

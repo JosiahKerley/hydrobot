@@ -43,6 +43,9 @@ if ping -c 5 8.8.8.8
 then
   if [ ! -f /.firstboot ]
   then
+    clear
+    echo 'Updating HydRobot...'
+    sleep 3
     if update-hydrobot
     then
       touch /.firstboot

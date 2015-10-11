@@ -16,10 +16,10 @@ for pin in pins:
 ## Functions
 def high(pin):
   print('Setting pin %s to high'%(str(pin)))
-  GPIO.output(pin,GPIO.HIGH)  
+  GPIO.output(pin,GPIO.LOW)
 def low(pin):
   print('Setting pin %s to low'%(str(pin)))
-  GPIO.output(pin,GPIO.LOW)  
+  GPIO.output(pin,GPIO.HIGH)
 
 
 ## Main

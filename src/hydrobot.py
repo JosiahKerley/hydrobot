@@ -23,6 +23,8 @@ def low(pin):
 
 
 ## Main
+for pin in pins:
+  low(pin)
 while True:
   for pin in pins:
     high(pin)

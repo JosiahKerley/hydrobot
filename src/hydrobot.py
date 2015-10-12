@@ -15,10 +15,16 @@ with open('/etc/hydrobot/settings.yml','r') as f:
 
 ## Node Role
 def node():
+  root_pattern = 'output::'+settings['node']['id']+'::'
   r = redis.StrictRedis(host=settings['hub']['host'],port=settings['hub']['port'])
   r.set('node::'+settings['node']['id'],dump(settings['node']))
+  pins = []
+  for i in settings['node']['pins']:
+    pins.append(i.keys()[0])
+  for i in pins:
+    print root_pattern+str(i)
+    r.set(root_pattern+str(i),'low')
   while True:
-    root_pattern = 'output::'+settings['node']['id']+'::'
     current_outputs = r.keys(root_pattern+'*')
     for key in current_outputs:
       print(key)

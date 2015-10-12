@@ -26,6 +26,8 @@ echo "flock -n /tmp/.login -c glances" >> /home/pi/.bashrc
 apt-get install -y htop iotop iftop tmux gcc python-dev python-pip redis-server
 pip install psutil || pip install psutil --upgrade
 pip install glances
+pip install redis
+pip install yaml
 
 
 ## Install Hydrobot
@@ -37,6 +39,8 @@ else
   git clone https://github.com/JosiahKerley/hydrobot /opt/hydrobot
   cd /opt/hydrobot
   bash install
+  mkdir -p /etc/hydrobot
+  cat other/settings.yml > /etc/hydrobot/settings.yml
   cd -
 fi
 

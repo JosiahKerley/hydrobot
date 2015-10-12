@@ -1,0 +1,42 @@
+## HydroBot Config
+hub:
+  host: 127.0.0.1
+  port: 6380
+node:
+  name: hydrobot
+  id: 00000000-0000-0000-0000-000000000000
+  poll: 3
+  pins:
+    - 3:
+        name: Pump
+        type: relay
+        circuit: normally open
+    - 5:
+        name: Aggitator
+        type: relay
+        circuit: normally open
+    - 7:
+        name: Light
+        type: relay
+        circuit: normally open
+    - 8:
+        name: Heater
+        type: relay
+        circuit: normally open
+    - 10:
+        name: Cooler
+        type: relay
+        circuit: normally open
+    - 12:
+        name: Nutrients
+        type: relay
+        circuit: normally open
+    - 11:
+        name: pH Down
+        type: relay
+        circuit: normally open
+    - 13:
+        name: pH Down
+        type: relay
+        circuit: normally open
+role: hub,node

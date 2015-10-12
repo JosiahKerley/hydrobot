@@ -1,38 +1,52 @@
 #!/usr/bin/python
 import time
+import yaml
+import redis
+import threading
 import RPi.GPIO as GPIO
+from cPickle import loads as load
+from cPickle import dumps as dump
 
 
 ## Settings
-pins = [3,5,7,8,10,12,11,13]
+with open('/etc/hydrobot/settings.yml','r') as f:
+  settings = yaml.load(f.read())
 
 
-## Setup
-GPIO.setmode(GPIO.BOARD)
-for pin in pins:
-  GPIO.setup(pin, GPIO.OUT)
+## Node Role
+def node():
+  r = redis.StrictRedis(host=settings['hub']['host'],port=settings['hub']['port'])
+  r.set('node::'+settings['node']['id'],dump(settings['node']))
+  while True:
+    root_pattern = 'output::'+settings['node']['id']+'::'
+    current_outputs = r.keys(root_pattern+'*')
+    for key in current_outputs:
+      state = r.get(key)
+      pin = str(key.replace(root_pattern,''))
+    time.sleep(settings['node']['poll'])
 
 
-## Functions
-def high(pin):
-  print('Setting pin %s to high'%(str(pin)))
-  GPIO.output(pin,GPIO.LOW)
-def low(pin):
-  print('Setting pin %s to low'%(str(pin)))
-  GPIO.output(pin,GPIO.HIGH)
+##-> Main <-##
 
+if 'node' in settings['role']:
 
-## Main
-for pin in pins:
-  low(pin)
-while True:
+  ## Setup
+  GPIO.setmode(GPIO.BOARD)
   for pin in pins:
-    high(pin)
-    time.sleep(1)
+    GPIO.setup(pin, GPIO.OUT)
+
+  ## Functions
+  def high(pin):
+    print('Setting pin %s to high'%(str(pin)))
+    GPIO.output(pin,GPIO.LOW)
+  def low(pin):
+    print('Setting pin %s to low'%(str(pin)))
+    GPIO.output(pin,GPIO.HIGH)
+
+  ## Start
+  #GPIO.cleanup()
+  for pin in pins:
     low(pin)
-    time.sleep(1)
-  time.sleep(5)
+  thread = threading.Thread(target=node)
+  thread.start()
 
-
-## Finish
-GPIO.cleanup()

@@ -45,7 +45,9 @@ if 'node' in settings['role']:
   GPIO.setmode(GPIO.BOARD)
   pins = []
   for i in settings['node']['pins']:
-    pins.append(int(i.keys()[0]))
+    v = int(i.keys()[0])
+    print(v)
+    pins.append(v)
   for pin in pins:
     GPIO.setup(pin, GPIO.OUT)
 

@@ -27,7 +27,7 @@ apt-get install -y htop iotop iftop tmux gcc python-dev python-pip redis-server
 pip install psutil || pip install psutil --upgrade
 pip install glances
 pip install redis
-pip install yaml
+pip install pyyaml
 
 
 ## Install Hydrobot

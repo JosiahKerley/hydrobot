@@ -4,7 +4,7 @@
 ## Setup cron
 cat > /etc/cron.d/01-hydrobot << EOF
 @reboot root flock -n /tmp/.hydrobot -c "while ! service redis-server status | grep running; do sleep 5; done; hydrobot --daemon >> /var/log/hydrobot"
-? ? ? ? ? root flock -n /tmp/.hydrobot -c "while ! service redis-server status | grep running; do sleep 5; done; hydrobot --daemon >> /var/log/hydrobot"
+* * * * * root flock -n /tmp/.hydrobot -c "while ! service redis-server status | grep running; do sleep 5; done; hydrobot --daemon >> /var/log/hydrobot"
 EOF
 
 

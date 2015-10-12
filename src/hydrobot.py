@@ -20,7 +20,7 @@ def node():
   r.set('node::'+settings['node']['id'],dump(settings['node']))
   pins = []
   for i in settings['node']['pins']:
-    pins.append(i.keys()[0])
+    pins.append(int(i.keys()[0]))
   for i in pins:
     print root_pattern+str(i)
     r.set(root_pattern+str(i),'low')
@@ -45,7 +45,7 @@ if 'node' in settings['role']:
   GPIO.setmode(GPIO.BOARD)
   pins = []
   for i in settings['node']['pins']:
-    pins.append(i.keys()[0])
+    pins.append(int(i.keys()[0]))
   for pin in pins:
     GPIO.setup(pin, GPIO.OUT)
 

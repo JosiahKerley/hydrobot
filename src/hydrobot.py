@@ -32,9 +32,11 @@ def node():
       state = r.get(key)
       pin = str(key.replace(root_pattern,''))
       if state == 'low':
-        low(pin)
+        try: low(pin)
+        except: print('Error setting %s'%(str(pin)))
       elif state == 'high':
-        high(pin)
+        try: high(pin)
+        except: print('Error setting %s'%(str(pin)))
     time.sleep(settings['node']['poll'])
 
 

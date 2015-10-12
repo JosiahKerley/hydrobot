@@ -32,6 +32,9 @@ if 'node' in settings['role']:
 
   ## Setup
   GPIO.setmode(GPIO.BOARD)
+  pins = []
+  for i in settings['node']['pins']:
+    pins.append(i.keys()[0])
   for pin in pins:
     GPIO.setup(pin, GPIO.OUT)
 
@@ -45,8 +48,8 @@ if 'node' in settings['role']:
 
   ## Start
   #GPIO.cleanup()
-  #for pin in pins:
-  #  low(pin)
+  for pin in pins:
+    low(pin)
   thread = threading.Thread(target=node)
   thread.start()
 

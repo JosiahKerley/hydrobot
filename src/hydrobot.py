@@ -23,7 +23,8 @@ def node():
     pins.append(int(i.keys()[0]))
   for i in pins:
     print root_pattern+str(i)
-    r.set(root_pattern+str(i),'low')
+    try: r.get(root_pattern+str(i))
+    except: r.set(root_pattern+str(i),'low')
   while True:
     current_outputs = r.keys(root_pattern+'*')
     for key in current_outputs:
@@ -42,6 +43,8 @@ def node():
 if 'node' in settings['role']:
 
   ## Setup
+  try: GPIO.cleanup()
+  except: pass
   GPIO.setmode(GPIO.BOARD)
   pins = []
   for i in settings['node']['pins']:
@@ -60,7 +63,6 @@ if 'node' in settings['role']:
     GPIO.output(int(pin),GPIO.HIGH)
 
   ## Start
-  GPIO.cleanup()
   for pin in pins:
     low(pin)
   thread = threading.Thread(target=node)

@@ -53,20 +53,14 @@ if 'node' in settings['role']:
 
   ## Functions
   def high(pin):
-    try:
-      print('Setting pin %s to high'%(str(pin)))
-      GPIO.output(pin,GPIO.LOW)
-    except:
-      print('Error setting pin %s to high'%(str(pin)))
+    print('Setting pin %s to high'%(str(pin)))
+    GPIO.output(int(pin),GPIO.LOW)
   def low(pin):
-    try:
-      print('Setting pin %s to low'%(str(pin)))
-      GPIO.output(pin,GPIO.HIGH)
-    except:
-      print('Error setting pin %s to low'%(str(pin)))
+    print('Setting pin %s to low'%(str(pin)))
+    GPIO.output(int(pin),GPIO.HIGH)
 
   ## Start
-  #GPIO.cleanup()
+  GPIO.cleanup()
   for pin in pins:
     low(pin)
   thread = threading.Thread(target=node)

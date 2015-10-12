@@ -21,8 +21,13 @@ def node():
     root_pattern = 'output::'+settings['node']['id']+'::'
     current_outputs = r.keys(root_pattern+'*')
     for key in current_outputs:
+      print(key)
       state = r.get(key)
       pin = str(key.replace(root_pattern,''))
+      if state == 'low':
+        low(pin)
+      elif state == 'high':
+        high(pin)
     time.sleep(settings['node']['poll'])
 
 

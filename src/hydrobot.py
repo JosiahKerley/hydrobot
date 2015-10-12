@@ -45,8 +45,8 @@ if 'node' in settings['role']:
 
   ## Start
   #GPIO.cleanup()
-  for pin in pins:
-    low(pin)
+  #for pin in pins:
+  #  low(pin)
   thread = threading.Thread(target=node)
   thread.start()
 

@@ -53,11 +53,17 @@ if 'node' in settings['role']:
 
   ## Functions
   def high(pin):
-    print('Setting pin %s to high'%(str(pin)))
-    GPIO.output(pin,GPIO.LOW)
+    try:
+      print('Setting pin %s to high'%(str(pin)))
+      GPIO.output(pin,GPIO.LOW)
+    except:
+      print('Error setting pin %s to high'%(str(pin)))
   def low(pin):
-    print('Setting pin %s to low'%(str(pin)))
-    GPIO.output(pin,GPIO.HIGH)
+    try:
+      print('Setting pin %s to low'%(str(pin)))
+      GPIO.output(pin,GPIO.HIGH)
+    except:
+      print('Error setting pin %s to low'%(str(pin)))
 
   ## Start
   #GPIO.cleanup()

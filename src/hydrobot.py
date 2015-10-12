@@ -23,8 +23,8 @@ def node():
     pins.append(int(i.keys()[0]))
   for i in pins:
     print root_pattern+str(i)
-    try: r.get(root_pattern+str(i))
-    except: r.set(root_pattern+str(i),'low')
+    if r.get(root_pattern+str(i)) == None:
+      r.set(root_pattern+str(i),'low')
   while True:
     current_outputs = r.keys(root_pattern+'*')
     for key in current_outputs:

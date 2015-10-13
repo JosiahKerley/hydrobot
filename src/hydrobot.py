@@ -142,13 +142,13 @@ if '--daemon' in sys.argv:
       """ Output route """
       data = get_outputs()
       if request.method == 'POST':
-        rx = request.get_json().copy()
-        if rx['state'] in data['states']:
-          print '\n\n!!!'
-          print data
-          print '!!!\n\n'
+        rx = request.get_json()
+        if rx['state'] in data[id]['states']:
+          key = 'output::%s::%s'%(data[id]['node'],data[id]['pin'])                                                                                                             
+          r.set(key,rx['state'])
           data = get_outputs()
-        data = {'error':'state not allowed','states':data['states']}
+        else:
+          data = {id:{'error':'state not allowed','got':rx['state']}}
         return(json.dumps(data[id],indent=2))
       else:
         return(json.dumps(data[id],indent=2))

@@ -29,6 +29,8 @@ pip install glances
 pip install redis
 pip install pyyaml
 pip install Flask
+pip install requests
+pip install prettytable
 
 
 ## Install Hydrobot

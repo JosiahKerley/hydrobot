@@ -157,3 +157,31 @@ if '--daemon' in sys.argv:
     app.run(settings['hub']['api']['host'],port=settings['hub']['api']['port'],debug=True)
 
 
+else:
+  import requests
+  from prettytable import PrettyTable
+  def show_outputs():
+    url = 'http://%s:%s/outputs'%(settings['hub']['api']['host'],settings['hub']['api']['port'])
+    resp = requests.get(url)
+    outputs = json.loads(resp.text)
+    table = PrettyTable(['Name','Type','State','Allowed States'])
+    for o in outputs:
+      output = outputs[o] 
+      table.add_row([output['name'],output['type'],output['state'],', '.join(output['states'])])
+    print(table)
+  if 'out' in sys.argv:
+    if 'sho' in sys.argv:
+      show_outputs()
+    elif 'set' in sys.argv:
+      state = sys.argv[-1]
+      output = sys.argv[-2]
+      url = 'http://%s:%s/outputs/%s'%(settings['hub']['api']['host'],settings['hub']['api']['port'],output)
+      resp = requests.post(url,json={"state":state})
+      status = resp.json()
+      if 'error' in status.keys():
+        table = PrettyTable(['Error Message',''])
+        table.add_row([status['error'],status['got']])
+        print(table)
+      else:
+        show_outputs()
+

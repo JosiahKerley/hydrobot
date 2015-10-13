@@ -87,4 +87,4 @@ if '--daemon' in sys.argv:
       return(json.dumps(data,indent=2))
 
 
-    app.run(port=settings['hub']['api']['port'],debug=True)
+    app.run(settings['hub']['api']['host'],port=settings['hub']['api']['port'],debug=True)

@@ -76,6 +76,7 @@ if '--daemon' in sys.argv:
   if 'hub' in settings['role']:
     r = redis.StrictRedis(host=settings['hub']['host'],port=settings['hub']['port'])
     from flask import Flask
+    from flask import request
     app = Flask(__name__)
 
 
@@ -130,12 +131,21 @@ if '--daemon' in sys.argv:
       data['outputs'] = get_outputs()                                                                                                                                           
       return(json.dumps(data,indent=2))
 
-
     @app.route('/outputs')
     def route_outputs():
       """ Output route """
       data = get_outputs()
       return(json.dumps(data,indent=2))
+
+    @app.route('/outputs/<id>')
+    def route_output(id,methods=['GET', 'POST']):
+      """ Output route """
+      if request.method == 'POST':
+        print request.get_json()
+      else:
+        data = get_outputs()
+        return(json.dumps(data[id],indent=2))
+
 
     app.run(settings['hub']['api']['host'],port=settings['hub']['api']['port'],debug=True)
 

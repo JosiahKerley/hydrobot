@@ -95,7 +95,6 @@ if '--daemon' in sys.argv:
     def get_outputs():
       """ Returns dict of outputs """
       outputs = {}                                                                                                                                                              
-      ## By node
       node_outputs = {}
       for o in r.keys('output::*'):                                                                                                                                             
         print o
@@ -106,8 +105,6 @@ if '--daemon' in sys.argv:
         except:
           node_outputs[output[0]] = {}
           node_outputs[output[0]][output[1]] = data
-      outputs['by-node'] = node_outputs
-      ## By name
       nodes = get_nodes()
       name_outputs = {}
       for n in nodes:
@@ -120,7 +117,7 @@ if '--daemon' in sys.argv:
           named = dict(named.items() + ({"node":n}).items())
           named = dict(named.items() + (state).items())
           name_outputs[p[p.keys()[0]]['name']] = named                                                                                                                          
-      outputs['by-name'] = name_outputs
+      outputs = name_outputs
       return(outputs)
 
 
@@ -133,6 +130,12 @@ if '--daemon' in sys.argv:
       data['outputs'] = get_outputs()                                                                                                                                           
       return(json.dumps(data,indent=2))
 
+
+    @app.route('/outputs')
+    def route_outputs():
+      """ Output route """
+      data = get_outputs()
+      return(json.dumps(data,indent=2))
 
     app.run(settings['hub']['api']['host'],port=settings['hub']['api']['port'],debug=True)
 

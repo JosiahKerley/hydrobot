@@ -73,18 +73,67 @@ if '--daemon' in sys.argv:
     thread = threading.Thread(target=node)
     thread.start()
 
-  if 'hub' in settings['role']:  
+  if 'hub' in settings['role']:
     r = redis.StrictRedis(host=settings['hub']['host'],port=settings['hub']['port'])
     from flask import Flask
     app = Flask(__name__)
 
 
+
+    ## Getters
+    def get_nodes():
+      """ Returns dict of nodes registered """
+      nodes = {}
+      for n in r.keys('node::*'):
+        node = n.replace('node::','')
+        data = {}
+        data = dict(data.items() + (load(r.get(n))).items())
+        nodes[node] = data
+      return(nodes)
+
+
+    def get_outputs():
+      """ Returns dict of outputs """
+      outputs = {}                                                                                                                                                              
+      ## By node
+      node_outputs = {}
+      for o in r.keys('output::*'):                                                                                                                                             
+        print o
+        output = o.replace('output::','').split('::')
+        data = {}
+        data['state'] = r.get(o)
+        try: node_outputs[output[0]][output[1]] = data
+        except:
+          node_outputs[output[0]] = {}
+          node_outputs[output[0]][output[1]] = data
+      outputs['by-node'] = node_outputs
+      ## By name
+      nodes = get_nodes()
+      name_outputs = {}
+      for n in nodes:
+        pins = nodes[n]['pins']                                                                                                                                                 
+        for p in pins:
+          pin = str(p.keys()[0])                                                                                                                                                
+          state = node_outputs[n][pin]
+          named = p[p.keys()[0]]
+          named = dict(named.items() + ({"pin":pin}).items())                                                                                                                   
+          named = dict(named.items() + ({"node":n}).items())
+          named = dict(named.items() + (state).items())
+          name_outputs[p[p.keys()[0]]['name']] = named                                                                                                                          
+      outputs['by-name'] = name_outputs
+      return(outputs)
+
+
+    ## Routes
     @app.route('/')
-    def page_home():
+    def route_root():
+      """ Root route """
       data = {}
-      for k in r.keys('node::*'):
-        data = dict(data.items() + (load(r.get(k))).items())
+      data['nodes']   = get_nodes()  
+      data['outputs'] = get_outputs()                                                                                                                                           
       return(json.dumps(data,indent=2))
 
 
     app.run(settings['hub']['api']['host'],port=settings['hub']['api']['port'],debug=True)
+
+

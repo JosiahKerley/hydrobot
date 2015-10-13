@@ -14,32 +14,40 @@ node:
         name: Pump
         type: relay
         circuit: normally open
+        states: low,high
     - 5:
         name: Aggitator
         type: relay
         circuit: normally open
+        states: low,high
     - 7:
         name: Light
         type: relay
         circuit: normally open
+        states: low,high
     - 8:
         name: Heater
         type: relay
         circuit: normally open
+        states: low,high
     - 10:
         name: Cooler
         type: relay
         circuit: normally open
+        states: low,high
     - 12:
         name: Nutrients
         type: relay
         circuit: normally open
+        states: low,high
     - 11:
         name: pH Down
         type: relay
         circuit: normally open
+        states: low,high
     - 13:
         name: pH Down
         type: relay
         circuit: normally open
+        states: low,high
 role: hub,node

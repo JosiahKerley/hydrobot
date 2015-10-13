@@ -140,11 +140,13 @@ if '--daemon' in sys.argv:
     @app.route('/outputs/<id>',methods=['GET', 'POST'])
     def route_output(id):
       """ Output route """
+      data = get_outputs()
       if request.method == 'POST':
-        print request.get_json()
+        rx = json.loads(request.get_json())
+        print data[rx['state']]
+        data = get_outputs()
         return(json.dumps(data[id],indent=2))
       else:
-        data = get_outputs()
         return(json.dumps(data[id],indent=2))
 
 

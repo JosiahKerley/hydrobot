@@ -169,8 +169,8 @@ else:
       output = outputs[o] 
       table.add_row([output['name'],output['type'],output['state'],', '.join(output['states'])])
     print(table)
-  if 'out' in sys.argv:
-    if 'sho' in sys.argv:
+  if 'output' in sys.argv:
+    if 'show' in sys.argv:
       show_outputs()
     elif 'set' in sys.argv:
       state = sys.argv[-1]

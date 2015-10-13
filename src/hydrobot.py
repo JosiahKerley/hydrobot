@@ -143,8 +143,12 @@ if '--daemon' in sys.argv:
       data = get_outputs()
       if request.method == 'POST':
         rx = request.get_json().copy()
-        print data
-        data = get_outputs()
+        if rx['state'] in data['states']:
+          print '\n\n!!!'
+          print data
+          print '!!!\n\n'
+          data = get_outputs()
+        data = {'error':'state not allowed','states':data['states']}
         return(json.dumps(data[id],indent=2))
       else:
         return(json.dumps(data[id],indent=2))

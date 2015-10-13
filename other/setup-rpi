@@ -28,6 +28,7 @@ pip install psutil || pip install psutil --upgrade
 pip install glances
 pip install redis
 pip install pyyaml
+pip install Flask
 
 
 ## Install Hydrobot

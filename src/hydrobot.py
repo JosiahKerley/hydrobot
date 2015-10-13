@@ -1,6 +1,8 @@
 #!/usr/bin/python
+import sys
 import time
 import yaml
+import json
 import redis
 import threading
 import RPi.GPIO as GPIO
@@ -40,33 +42,49 @@ def node():
     time.sleep(settings['node']['poll'])
 
 
+
 ##-> Main <-##
+if '--daemon' in sys.argv:
+  if 'node' in settings['role']:
 
-if 'node' in settings['role']:
+    ## Setup
+    try: GPIO.cleanup()
+    except: pass
+    GPIO.setmode(GPIO.BOARD)
+    pins = []
+    for i in settings['node']['pins']:
+      v = int(i.keys()[0])
+      print(v)
+      pins.append(v)
+    for pin in pins:
+      GPIO.setup(pin, GPIO.OUT)
 
-  ## Setup
-  try: GPIO.cleanup()
-  except: pass
-  GPIO.setmode(GPIO.BOARD)
-  pins = []
-  for i in settings['node']['pins']:
-    v = int(i.keys()[0])
-    print(v)
-    pins.append(v)
-  for pin in pins:
-    GPIO.setup(pin, GPIO.OUT)
+    ## Functions
+    def high(pin):
+      print('Setting pin %s to high'%(str(pin)))
+      GPIO.output(int(pin),GPIO.LOW)
+    def low(pin):
+      print('Setting pin %s to low'%(str(pin)))
+      GPIO.output(int(pin),GPIO.HIGH)
 
-  ## Functions
-  def high(pin):
-    print('Setting pin %s to high'%(str(pin)))
-    GPIO.output(int(pin),GPIO.LOW)
-  def low(pin):
-    print('Setting pin %s to low'%(str(pin)))
-    GPIO.output(int(pin),GPIO.HIGH)
+    ## Start
+    for pin in pins:
+      low(pin)
+    thread = threading.Thread(target=node)
+    thread.start()
 
-  ## Start
-  for pin in pins:
-    low(pin)
-  thread = threading.Thread(target=node)
-  thread.start()
+  if 'hub' in settings['role']:  
+    r = redis.StrictRedis(host=settings['hub']['host'],port=settings['hub']['port'])
+    from flask import Flask
+    app = Flask(__name__)
 
+
+    @app.route('/')
+    def page_home():
+      data = {}
+      for k in r.keys('node::*'):
+        data = dict(data.items() + (load(r.get(k))).items())
+      return(json.dumps(data,indent=2))
+
+
+    app.run(port=settings['hub']['api']['port'],debug=True)

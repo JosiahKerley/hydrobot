@@ -143,7 +143,7 @@ if '--daemon' in sys.argv:
       data = get_outputs()
       if request.method == 'POST':
         rx = request.get_json().copy()
-        print data[rx['state']]
+        print data
         data = get_outputs()
         return(json.dumps(data[id],indent=2))
       else:

@@ -114,9 +114,9 @@ if '--daemon' in sys.argv:
           pin = str(p.keys()[0])                                                                                                                                                
           state = node_outputs[n][pin]
           named = p[p.keys()[0]]
-          named = dict(named.items() + ({"pin":pin}).items())                                                                                                                   
-          named = dict(named.items() + ({"node":n}).items())
-          named = dict(named.items() + (state).items())
+          named['pin'] = pin
+          named['node'] = n
+          named['state'] = state
           name_outputs[p[p.keys()[0]]['name']] = named                                                                                                                          
       outputs = name_outputs
       return(outputs)

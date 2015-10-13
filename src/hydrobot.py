@@ -112,7 +112,7 @@ if '--daemon' in sys.argv:
         pins = nodes[n]['pins']                                                                                                                                                 
         for p in pins:
           pin = str(p.keys()[0])                                                                                                                                                
-          state = node_outputs[n][pin]
+          state = node_outputs[n][pin]['state']
           named = p[p.keys()[0]]
           named['pin'] = pin
           named['node'] = n

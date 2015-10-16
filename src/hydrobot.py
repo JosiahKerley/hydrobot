@@ -15,6 +15,16 @@ with open('/etc/hydrobot/settings.yml','r') as f:
   settings = yaml.load(f.read())
 
 
+## Stored Procedures
+procedures = {}
+if os.path.isfile('/etc/hydrobot/procedures.yml'):
+  with open('/etc/hydrobot/procedures.yml','r') as f:
+    procedures = yaml.loads(f.read())
+if os.path.isfile(settings['hub']['procedures file']):
+  with open(settings['hub']['procedures file'],'r') as f:
+    procedures = yaml.loads(f.read())
+
+
 ## Node Role
 def node():
   root_pattern = 'output::'+settings['node']['id']+'::'
@@ -129,6 +139,7 @@ if '--daemon' in sys.argv:
       data = {}
       data['nodes']   = get_nodes()  
       data['outputs'] = get_outputs()                                                                                                                                           
+      data['procedures'] = procedures
       return(json.dumps(data,indent=2))
 
     @app.route('/outputs')
@@ -169,8 +180,8 @@ else:
       output = outputs[o] 
       table.add_row([output['name'],output['type'],output['state'],', '.join(output['states'])])
     print(table)
-  if 'output' in sys.argv:
-    if 'show' in sys.argv:
+  if 'output' in sys.argv or 'outputs' in sys.argv or 'out' in sys.argv:
+    if 'show' in sys.argv or 'get' in sys.argv:
       show_outputs()
     elif 'set' in sys.argv:
       state = sys.argv[-1]
@@ -184,4 +195,17 @@ else:
         print(table)
       else:
         show_outputs()
-
+    elif 'toggle' in sys.argv:
+      url = 'http://%s:%s/outputs/%s'%(settings['hub']['api']['host'],settings['hub']['api']['port'],output)
+      resp = requests.post(url,json={"state":"toggle"})
+      status = resp.json()
+      if 'error' in status.keys():
+        table = PrettyTable(['Error Message',''])
+        table.add_row([status['error'],status['got']])
+        print(table)
+      else:
+        show_outputs()
+    else:
+      table = PrettyTable(['Error Message'])
+      table.add_row(['no output specified'])
+      print(table)

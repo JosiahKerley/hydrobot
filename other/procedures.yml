@@ -1,0 +1,31 @@
+Flood Cycle:
+  set:
+    output:
+      name: Pump
+      state: high
+  sleep: 2m
+  set:
+    output:
+      name: Pump
+      state: low
+Day:
+  set:
+    output:
+      name: Light
+      state: high
+Night:
+  set:
+    output:
+      name: Light
+      state: low
+Tempature Too Cold:
+  set:
+    output:
+      name: Heater
+      state: high
+Tempature Too Hot:
+  set:
+    output:
+      name: Heater
+      state: low
+

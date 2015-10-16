@@ -44,6 +44,7 @@ else
   bash install
   mkdir -p /etc/hydrobot
   cat other/settings.yml > /etc/hydrobot/settings.yml
+  cat other/procedures.yml > /etc/hydrobot/procedures.yml
   cd -
 fi
 
@@ -84,3 +85,17 @@ then
 fi
 exit 0
 EOF
+
+
+## Install motionEye
+apt-get -y install motion ffmpeg
+apt-get -y install python-pip python-dev libssl-dev libcurl4-openssl-dev libjpeg-dev
+pip install motioneye
+mkdir -p /etc/motioneye
+cp /usr/local/share/motioneye/extra/motioneye.conf.sample /etc/motioneye/motioneye.conf
+mkdir -p /var/lib/motioneye
+cp /usr/local/share/motioneye/extra/motioneye.init-debian /etc/init.d/motioneye
+chmod +x /etc/init.d/motioneye
+update-rc.d -f motioneye defaults
+/etc/init.d/motioneye start
+
